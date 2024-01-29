@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Рецепт: "{{ recipe.name }}"
+{% endblock %}
+
+{% block header_title %}
+    Рецепт: "{{ recipe.name }}"
+{% endblock %}
+
+{% block content %}
+    <div class="card" style="width: 520px">
+        <div class="card-body shadow-sm border">
+            <form action="{% url 'app:add_product_to_recipe' %}" method="get">
+                <div class="mb-2">
+                    <select name="recipe" id="" class="form-select">
+                        <option value="{{ recipe.id }}">
+                            {{ recipe.name }}
+                        </option>
+                    </select>
+                </div>
+                <div class="mb-2">
+                    <select name="product" id="" class="form-select">
+                        {% for product in products %}
+                            <option value="{{ product.id }}">
+                                {{ product.name }}
+                            </option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="mb-2">
+                    <input type="text" class="form-control" name="weight">
+                </div>
+                <button type="submit" class="btn btn-info text-center text-white">
+                    Добавить / Изменить
+                </button>
+            </form>
+        </div>
+    </div>
+    <table class="table text-center table-bordered table-sm align-middle">
+        <thead class="bg-warning">
+        <tr>
+            <th style="width: 50px">№</th>
+            <th>Название</th>
+            <th>Вес</th>
+        </tr>
+        </thead>
+
+        <tbody>
+        {% for ingredient in ingredients %}
+            <tr {% if ingredient.weight < 10 %}style="background-color: rgba(255,158,158,0.17)"{% endif %}>
+                <td>{{ forloop.counter }}</td>
+                <td>{{ ingredient.product.name }}</td>
+                <td>{{ ingredient.weight }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

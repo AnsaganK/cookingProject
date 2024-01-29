@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% load recipe %}
+
+{% block title %}
+    Рецепты
+{% endblock %}
+
+{% block header_title %}
+    Рецепты без продукта: "{{ product.name }}"
+{% endblock %}
+
+{% block content %}
+    <table class="table text-center table-bordered table-sm align-middle">
+        <thead class="bg-warning">
+        <tr>
+            <th style="width: 50px">№</th>
+            <th>Название</th>
+            <th>{{ product.name }}</th>
+        </tr>
+        </thead>
+
+        <tbody>
+        {% for recipe in recipes %}
+            <tr>
+                <td>{{ forloop.counter }}</td>
+                <td>
+                    <a href="{{ recipe.get_absolute_url }}">
+                        {{ recipe.name }}
+                    </a>
+                </td>
+                <td>{{ recipe|get_product_weight_in_recipe:product|default:'-' }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
